@@ -1,0 +1,121 @@
+```html
+{% extends 'base.html' %}
+
+{% block title %}{{ mode }} | Transport Management System{% endblock %}
+
+{% block auth_content %}
+
+<section class="auth-wrap">
+  <div class="auth-card">
+
+    <!-- Brand -->
+    <div class="auth-brand">
+      <span class="auth-logo">
+        <i class="bi bi-bus-front-fill"></i>
+      </span>
+      <h1>Transport Management System</h1>
+    </div>
+
+    <div class="auth-divider"></div>
+
+    <!-- Page heading -->
+    <h2>{{ mode }}</h2>
+
+    <p class="auth-subtitle">
+      {% if mode == 'Login' %}
+        Sign in to manage your fleet and trips
+      {% else %}
+        Create an account to get started
+      {% endif %}
+    </p>
+
+    <!-- Login / Registration form -->
+    <form method="post" class="auth-form">
+
+      <!-- Username -->
+      <label for="username">Username</label>
+
+      <div class="input-icon">
+        <i class="bi bi-person"></i>
+
+        <input
+          id="username"
+          name="username"
+          type="text"
+          placeholder="Enter Username"
+          minlength="3"
+          maxlength="80"
+          required
+          autocomplete="username"
+          value="{{ request.form.get('username', '') }}"
+        >
+      </div>
+
+      <!-- Password -->
+      <label for="password">Password</label>
+
+      <div class="input-icon">
+        <i class="bi bi-lock"></i>
+
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Enter Password"
+          minlength="8"
+          required
+          autocomplete="{{ 'new-password' if mode == 'Register' else 'current-password' }}"
+        >
+      </div>
+
+      <!-- Confirm password: registration only -->
+      {% if mode == 'Register' %}
+
+        <label for="confirm_password">Confirm Password</label>
+
+        <div class="input-icon">
+          <i class="bi bi-shield-lock"></i>
+
+          <input
+            id="confirm_password"
+            name="confirm_password"
+            type="password"
+            placeholder="Confirm Password"
+            minlength="8"
+            required
+            autocomplete="new-password"
+          >
+        </div>
+
+      {% endif %}
+
+      <!-- Submit button -->
+      <button class="auth-submit" type="submit">
+        {{ mode }}
+        <i class="bi bi-arrow-right"></i>
+      </button>
+
+    </form>
+
+    <!-- Login / Registration link -->
+    <div class="auth-bottom">
+
+      {% if mode == 'Login' %}
+
+        Don't have an account?
+        <a href="{{ url_for('register') }}">Register</a>
+
+      {% else %}
+
+        Already have an account?
+        <a href="{{ url_for('login') }}">Login</a>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
+```

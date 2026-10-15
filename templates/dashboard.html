@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | Transport Management System{% endblock %}
+{% block content %}
+<section class="dashboard-panel">
+  <div class="page-heading">
+    <div><h1>Dashboard</h1><p>Welcome back, {{ session.get('username') }}. Here's your transport overview.</p></div>
+    <a class="primary-action" href="{{ url_for('trips') }}"><i class="bi bi-plus-lg"></i> New Trip</a>
+  </div>
+
+  <div class="stats-grid">
+    <article class="stat-card blue">
+      <div class="stat-icon"><i class="bi bi-bus-front-fill"></i></div>
+      <div class="stat-label">Total Vehicles</div><div class="stat-number">{{ totals['vehicles'] }}</div>
+    </article>
+    <article class="stat-card green">
+      <div class="stat-icon"><i class="bi bi-person-badge-fill"></i></div>
+      <div class="stat-label">Total Drivers</div><div class="stat-number">{{ totals['drivers'] }}</div>
+    </article>
+    <article class="stat-card orange">
+      <div class="stat-icon"><i class="bi bi-geo-alt-fill"></i></div>
+      <div class="stat-label">Ongoing Trips</div><div class="stat-number">{{ totals['ongoing'] }}</div>
+    </article>
+    <article class="stat-card red">
+      <div class="stat-icon"><i class="bi bi-check-circle-fill"></i></div>
+      <div class="stat-label">Completed Trips</div><div class="stat-number">{{ totals['completed'] }}</div>
+    </article>
+  </div>
+
+  <section class="recent-section">
+    <div class="section-heading"><div><h2>Recent Trips</h2><p>Your latest transport activity</p></div><a href="{{ url_for('trips') }}">View all <i class="bi bi-arrow-right"></i></a></div>
+    <div class="table-responsive trip-table-wrap">
+      <table class="table trip-table align-middle mb-0">
+        <thead><tr><th>Trip ID</th><th>Vehicle</th><th>Driver</th><th>Start Location</th><th>End Location</th><th>Date</th><th>Status</th></tr></thead>
+        <tbody>
+        {% for t in trips %}
+          <tr>
+            <td class="trip-id">#{{ '%03d'|format(t.id) }}</td><td>{{ t.registration_no }}</td><td>{{ t.driver_name }}</td>
+            <td><i class="bi bi-circle-fill location-dot start-dot"></i>{{ t.start_location }}</td>
+            <td><i class="bi bi-geo-alt-fill location-dot end-dot"></i>{{ t.end_location }}</td>
+            <td>{{ t.trip_date }}</td><td><span class="status-pill status-{{ t.status|lower }}">{{ t.status }}</span></td>
+          </tr>
+        {% else %}
+          <tr><td colspan="7" class="empty-state"><span class="empty-icon"><i class="bi bi-truck"></i></span><strong>No trips yet</strong><span>Add a vehicle and driver, then create your first trip.</span><a class="primary-action" href="{{ url_for('trips') }}"><i class="bi bi-plus-lg"></i> Create Trip</a></td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Edit {{ cfg.title }} | Transport Management System{% endblock %}
+{% block content %}
+<section class="dashboard-panel edit-panel"><div class="page-heading"><div><h1>Edit {{ cfg.title }}</h1><p>Update the details and save your changes.</p></div><a class="primary-action secondary-action" href="{{ url_for(kind) }}"><i class="bi bi-arrow-left"></i> Back to {{ cfg.title }}s</a></div>
+<form method="post" class="form-panel row g-3">
+{% if kind == 'vehicles' %}
+<div class="col-md-6"><label class="form-label" for="registration_no">Registration number</label><input class="form-control" id="registration_no" name="registration_no" value="{{ row.registration_no }}" required></div>
+<div class="col-md-6"><label class="form-label" for="model">Vehicle model</label><input class="form-control" id="model" name="model" value="{{ row.model }}" required></div>
+<div class="col-md-6"><label class="form-label" for="capacity">Seating capacity</label><input class="form-control" id="capacity" name="capacity" type="number" min="1" value="{{ row.capacity }}" required></div>
+{% else %}
+<div class="col-md-6"><label class="form-label" for="name">Full name</label><input class="form-control" id="name" name="name" value="{{ row.name }}" required></div>
+<div class="col-md-6"><label class="form-label" for="phone">Phone number</label><input class="form-control" id="phone" name="phone" type="tel" value="{{ row.phone }}" required></div>
+<div class="col-md-6"><label class="form-label" for="license_no">License number</label><input class="form-control" id="license_no" name="license_no" value="{{ row.license_no }}" required></div>
+{% endif %}
+<div class="col-md-6"><label class="form-label" for="status">Status</label><select class="form-select" id="status" name="status">{% for status in cfg.statuses %}<option {% if row.status == status %}selected{% endif %}>{{ status }}</option>{% endfor %}</select></div>
+<div class="col-12"><button class="primary-action" type="submit"><i class="bi bi-check-lg"></i> Save changes</button></div>
+</form></section>
+{% endblock %}
